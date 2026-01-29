@@ -4,11 +4,13 @@ import (
 	"context"
 	"fmt"
 	"go-practice/domain/todo"
+	"time"
 )
 
 // CompleteTodoInput はTodo完了のための入力データ
 type CompleteTodoInput struct {
-	ID string
+	ID          string
+	CompletedAt time.Time
 }
 
 // CompleteTodoUseCase はTodo完了のユースケース
@@ -38,7 +40,7 @@ func (uc *CompleteTodoUseCase) Execute(ctx context.Context, input CompleteTodoIn
 	}
 
 	// 3. ドメインロジックを実行(完了処理)
-	if err := t.Complete(); err != nil {
+	if err := t.Complete(input.CompletedAt); err != nil {
 		return fmt.Errorf("failed to complete todo: %w", err)
 	}
 

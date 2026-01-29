@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"go-practice/domain/todo"
+	"time"
 )
 
 type CreateTodoInput struct {
-	Title string
+	Title     string
+	CreatedAt time.Time
 }
 
 type CreateTodoOutput struct {
@@ -31,7 +33,7 @@ func (uc *CreateTodoUseCase) Execute(ctx context.Context, input CreateTodoInput)
 		return nil, fmt.Errorf("invalid title: %w", err)
 	}
 
-	newTodo := todo.NewTodo(title)
+	newTodo := todo.NewTodo(title, input.CreatedAt)
 
 	if err := uc.todoRepo.Save(ctx, newTodo); err != nil {
 		return nil, fmt.Errorf("failed to save todo: %w", err)

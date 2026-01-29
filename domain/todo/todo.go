@@ -13,12 +13,12 @@ type Todo struct {
 	completedAt *time.Time // ポインタ型にすることでnilを扱える
 }
 
-func NewTodo(title Title) *Todo {
+func NewTodo(title Title, createdAt time.Time) *Todo {
 	return &Todo{
 		id:        NewTodoID(),
 		title:     title,
 		completed: false,
-		createdAt: time.Now(),
+		createdAt: createdAt,
 	}
 }
 
@@ -32,12 +32,11 @@ func Reconstruct(id TodoID, title Title, completed bool, createdAt time.Time, co
 	}
 }
 
-func (t *Todo) Complete() error {
+func (t *Todo) Complete(now time.Time) error {
 	if t.completed {
 		return errors.New("todo is already completed")
 	}
 	t.completed = true
-	now := time.Now()
 	t.completedAt = &now
 	return nil
 }
