@@ -3,6 +3,7 @@ package handler
 import (
 	"go-practice/usecase/todo"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -56,7 +57,8 @@ func (h *TodoHandler) CreateTodo(c *gin.Context) {
 
 	// Usecaseを実行
 	output, err := h.createUseCase.Execute(c.Request.Context(), todo.CreateTodoInput{
-		Title: req.Title,
+		Title:     req.Title,
+		CreatedAt: time.Now(),
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -123,7 +125,8 @@ func (h *TodoHandler) CompleteTodo(c *gin.Context) {
 
 	// Usecaseを実行
 	err := h.completeUseCase.Execute(c.Request.Context(), todo.CompleteTodoInput{
-		ID: id,
+		ID:          id,
+		CompletedAt: time.Now(),
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

@@ -9,7 +9,8 @@ import (
 
 // CompleteTodoInput はTodo完了のための入力データ
 type CompleteTodoInput struct {
-	ID string
+	ID          string
+	CompletedAt time.Time
 }
 
 // CompleteTodoUseCase はTodo完了のユースケース
@@ -39,8 +40,7 @@ func (uc *CompleteTodoUseCase) Execute(ctx context.Context, input CompleteTodoIn
 	}
 
 	// 3. ドメインロジックを実行(完了処理)
-	now := time.Now()
-	if err := t.Complete(now); err != nil {
+	if err := t.Complete(input.CompletedAt); err != nil {
 		return fmt.Errorf("failed to complete todo: %w", err)
 	}
 

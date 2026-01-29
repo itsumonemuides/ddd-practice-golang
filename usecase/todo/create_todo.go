@@ -8,7 +8,8 @@ import (
 )
 
 type CreateTodoInput struct {
-	Title string
+	Title     string
+	CreatedAt time.Time
 }
 
 type CreateTodoOutput struct {
@@ -32,8 +33,7 @@ func (uc *CreateTodoUseCase) Execute(ctx context.Context, input CreateTodoInput)
 		return nil, fmt.Errorf("invalid title: %w", err)
 	}
 
-	now := time.Now()
-	newTodo := todo.NewTodo(title, now)
+	newTodo := todo.NewTodo(title, input.CreatedAt)
 
 	if err := uc.todoRepo.Save(ctx, newTodo); err != nil {
 		return nil, fmt.Errorf("failed to save todo: %w", err)
