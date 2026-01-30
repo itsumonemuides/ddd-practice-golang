@@ -1,3 +1,4 @@
+// Package todo provides the todo domain model and business rules.
 package todo
 
 import (
@@ -46,8 +47,18 @@ func (t *Todo) ChangeTitle(newTitle Title) {
 }
 
 // Getters
-func (t *Todo) ID() TodoID              { return t.id }
-func (t *Todo) Title() Title            { return t.title }
-func (t *Todo) IsCompleted() bool       { return t.completed }
-func (t *Todo) CreatedAt() time.Time    { return t.createdAt }
+
+// ID return the id
+func (t *Todo) ID() TodoID { return t.id }
+
+// Title return the title
+func (t *Todo) Title() Title { return t.title }
+
+// IsCompleted return the bool
+func (t *Todo) IsCompleted() bool { return t.completed }
+
+// CreatedAt return the time
+func (t *Todo) CreatedAt() time.Time { return t.createdAt }
+
+// CompletedAt return the time
 func (t *Todo) CompletedAt() *time.Time { return t.completedAt }
