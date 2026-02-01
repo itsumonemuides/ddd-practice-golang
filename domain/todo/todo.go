@@ -46,6 +46,15 @@ func (t *Todo) ChangeTitle(newTitle Title) {
 	t.title = newTitle
 }
 
+func (t *Todo) UnComplete() error {
+	if !t.completed {
+		return errors.New("todo is not completed")
+	}
+	t.completed = false
+	t.completedAt = nil
+	return nil
+}
+
 // Getters
 
 // ID return the id
