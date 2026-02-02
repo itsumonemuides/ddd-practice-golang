@@ -10,10 +10,11 @@ import (
 
 // TodoHandler はTodoのHTTPハンドラ
 type TodoHandler struct {
-	createUseCase   *todo.CreateTodoUseCase
-	listUseCase     *todo.ListTodosUseCase
-	completeUseCase *todo.CompleteTodoUseCase
-	deleteUseCase   *todo.DeleteTodoUseCase
+	createUseCase     *todo.CreateTodoUseCase
+	listUseCase       *todo.ListTodosUseCase
+	completeUseCase   *todo.CompleteTodoUseCase
+	deleteUseCase     *todo.DeleteTodoUseCase
+	uncompleteUseCase *todo.UncompleteTodoUseCase
 }
 
 // NewTodoHandler はTodoHandlerのコンストラクタ
@@ -22,12 +23,14 @@ func NewTodoHandler(
 	listUseCase *todo.ListTodosUseCase,
 	completeUseCase *todo.CompleteTodoUseCase,
 	deleteUseCase *todo.DeleteTodoUseCase,
+	uncompleteUseCase *todo.UncompleteTodoUseCase,
 ) *TodoHandler {
 	return &TodoHandler{
-		createUseCase:   createUseCase,
-		listUseCase:     listUseCase,
-		completeUseCase: completeUseCase,
-		deleteUseCase:   deleteUseCase,
+		createUseCase:     createUseCase,
+		listUseCase:       listUseCase,
+		completeUseCase:   completeUseCase,
+		deleteUseCase:     deleteUseCase,
+		uncompleteUseCase: uncompleteUseCase,
 	}
 }
 
@@ -137,6 +140,25 @@ func (h *TodoHandler) CompleteTodo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Todo completed successfully",
+	})
+}
+
+func (h *TodoHandler) UncompleteTodo(c *gin.Context) {
+	id := c.Param("id")
+
+	// Usecaseを実行
+	err := h.uncompleteUseCase.Execute(c.Request.Context(), todo.UncompleteInput{
+		ID: id,
+	})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Todo uncompleted successfully",
 	})
 }
 

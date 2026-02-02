@@ -18,6 +18,7 @@ func SetupRouter(todoHandler *handler.TodoHandler) *gin.Engine {
 			todos.POST("", todoHandler.CreateTodo)
 			todos.GET("", todoHandler.ListTodos)
 			todos.PUT("/:id/complete", todoHandler.CompleteTodo)
+			todos.PUT("/:id/uncomplete", todoHandler.UncompleteTodo)
 			todos.DELETE("/:id", todoHandler.DeleteTodo)
 		}
 	}

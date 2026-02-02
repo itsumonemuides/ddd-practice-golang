@@ -26,8 +26,9 @@ func (r *Registry) NewTodoHandler() *handler.TodoHandler {
 	listUseCase := todo.NewListTodoUseCase(todoRepo)
 	completeUseCase := todo.NewCompleteTodoUseCase(todoRepo)
 	deleteUseCase := todo.NewDeleteTodoUseCase(todoRepo)
+	uncompleteUseCase := todo.NewUncompleteTodoUseCase(todoRepo)
 
-	return handler.NewTodoHandler(createUseCase, listUseCase, completeUseCase, deleteUseCase)
+	return handler.NewTodoHandler(createUseCase, listUseCase, completeUseCase, deleteUseCase, uncompleteUseCase)
 }
 
 func (r *Registry) Close() error {
